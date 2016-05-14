@@ -1,0 +1,32 @@
+.jumbotron.feed-top{
+  padding-bottom:0px;
+}
+
+ul.feed-items{
+  padding:0px;
+  li{
+    padding:.666em;
+    list-style: none;
+    &:nth-child(even){
+      background-color: #EEE;
+    }
+    span.badge{
+      float:right;
+      cursor:pointer;
+    }
+  }
+  &#sortable-source{
+    span.badge{
+      display:none;
+    }
+  }
+}
+.dropdown{
+  button{
+    width:100%;
+    margin-bottom:15px;
+  }
+  ul.dropdown-menu{
+    width:100%;
+  }
+}
