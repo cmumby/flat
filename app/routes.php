@@ -17,4 +17,4 @@ Route::get('/', function()
 });
 
 Route::get('/feeds', 'FeedController@showFeedsInterface');
-Route::get('/feeds/api/get/{id}', 'FeedController@getSourceFeed');
+Route::get('/feeds/api/{type}/get/{id}', 'FeedController@getFeed');

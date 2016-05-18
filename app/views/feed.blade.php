@@ -24,16 +24,14 @@
       <div class="col-xs-6">
           <h2>Managed Feeds</h2>
           <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuFeed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Select Feed
               <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#" class="feed-dropdown-option">Action</a></li>
-              <li><a href="#" class="feed-dropdown-option">Another action</a></li>
-              <li><a href="#" class="feed-dropdown-option">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#" class="feed-dropdown-option">Separated link</a></li>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuFeed">
+              @foreach ($feeds as $feed)
+              <li><a href="#" class="feed-dropdown-option" data-sourceid="{{$feed->id}}">{{$feed->title}}</a></li>
+              @endforeach
             </ul>
           </div>
           <ul id="sortable-custom" class="list-group feed-items">

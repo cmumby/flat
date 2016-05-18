@@ -15,18 +15,33 @@ class FeedController extends BaseController {
 	|
 	*/
 
-	public function getSourceFeed($id)
+	public function getFeed($type,$id)
 	{
-    $source = SOURCE::find($id);
-    $content = $this->getSourceData($source->path);
-
+    $content = null;
+    if($type == 'source'){
+      $source = SOURCE::find($id);
+      $content = $this->getSourceData($source->path);
+    }
+    if($type == 'managed'){
+      $items = ITEM::where('feed_id', 1)->get();
+      foreach($items as $item){
+        $content[] = array(
+                        "title" => $item->title,
+                        "guid"  => $item->guid,
+                        "link"  => $item->link,
+                        "description" => $item->description,
+                        "pubDate"  => $item->pubdate,
+                     );
+      }
+    }
     return Response::make($content, '200')->header('Content-Type', 'application/json');
 	}
 
   public function showFeedsInterface(){
     $sources= SOURCE::all();
+    $feeds= FEED::all();
     //var_dump($sources); die();
-    return View::make('feed')->with(array('title'=> 'FGT','sources'=>$sources));
+    return View::make('feed')->with(array('title'=> 'FGT','sources'=>$sources,'feeds' => $feeds));
   }
 
   private function getSourceData($path){
