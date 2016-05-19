@@ -3,7 +3,10 @@ FEED = (function(){
 	FEED.init = function(){
       //Enable Feed Item Drag and Drop
       $( "#sortable-source, #sortable-custom" ).sortable({
-        connectWith: ".list-group"
+        connectWith: ".list-group",
+        receive:function(){
+          $('.no-items').remove();
+        }
       });
       $( "#sortable-source, #sortable-custom" ).disableSelection();
 
@@ -20,6 +23,7 @@ FEED = (function(){
         }
         if(labelledby == "dropdownMenuFeed"){
           apiFeedUrl += $(this).data('sourceid') ;
+          $('ul[aria-labelledby="dropdownMenuFeed"]').attr('data-entityid',  $(this).data('sourceid'));
           FEED.getSourceData(apiFeedUrl,'sortable-custom');
 
         }
@@ -31,6 +35,21 @@ FEED = (function(){
         $('li[data-guid="' + deleteGuid + '"]').remove();
         return false;
       });
+
+      //Feed submenu button actions
+      $('.badge.collapse').click(function(){
+          $('.list-group').each(function(){
+
+            if(!$(this).hasClass('hide-info')){
+              $(this).addClass('hide-info');
+              $('.badge.collapse').text('Expand Items');
+            } else{
+              $(this).removeClass('hide-info');
+              $('.badge.collapse').text('Collapse Items');
+            }
+        });
+
+      });
 	};
 
   FEED.getSourceData = function(url,targetlist){
@@ -41,6 +60,8 @@ FEED = (function(){
       sourceListHTML = (response != false)?FEED.writeInputList(response):'';
       if(sourceListHTML !=''){
         $("#"+targetlist).html(sourceListHTML);
+      } else{
+        $("#"+targetlist).html('<li class="no-items list-group-item ui-sortable-handle">No Items Yet. Add Items Under This<span class="caret"></span></li> ');
       }
     });
   };
@@ -50,7 +71,7 @@ FEED = (function(){
     items.forEach(function(item){
     console.log(item);
     if(typeof item.description != 'string') item.description = "None";
-    sourceListHTML += "<li class=\"list-group-item\" data-guid=\""+item.guid+"\">"+
+    sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
                         "<table style=\"width:100%\" class=\"table table-bordered\">"+
                           "<tr class=\"info\">"+
                             "<th>Title:</th>"+
@@ -58,7 +79,7 @@ FEED = (function(){
                           "</tr>"+
                           "<tr class=\"danger\">"+
                             "<th>URL:</th>"+
-                            "<td><a href=\""+item.guid+"\" data-link=\""+item.link+"\">"+item.guid+"</td>"+
+                            "<td><a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.guid+"</td>"+
                           "</tr>"+
                           "<tr class=\"success\">"+
                             "<th>Description:</th>"+

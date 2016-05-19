@@ -17,13 +17,14 @@ class FeedController extends BaseController {
 
 	public function getFeed($type,$id)
 	{
-    $content = null;
+    $content = array();
     if($type == 'source'){
       $source = SOURCE::find($id);
       $content = $this->getSourceData($source->path);
     }
     if($type == 'managed'){
-      $items = ITEM::where('feed_id', 1)->get();
+      $items = ITEM::where('feed_id', $id)->get();
+      //var_dump($items); die();
       foreach($items as $item){
         $content[] = array(
                         "title" => $item->title,

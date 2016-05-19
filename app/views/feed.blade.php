@@ -16,13 +16,17 @@
             </ul>
           </div>
           <ul id="sortable-source" class="list-group feed-items">
-            @for ($i = 0; $i < 10; $i++)
+            {{-- @for ($i = 0; $i < 10; $i++)
               <li class="list-group-item"><span class="badge">DELETE</span>Source Item {{$i + 1}}</li>
-            @endfor
+            @endfor --}}
           </ul>
       </div>
       <div class="col-xs-6">
-          <h2>Managed Feeds</h2>
+          <h2>Managed Feeds
+            <span class="badge save">Save Feed</span>
+            <span class="badge create">Create Item</span>
+            <span class="badge collapse">Collapse Items</span>
+          </h2>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuFeed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Select Feed
@@ -35,9 +39,9 @@
             </ul>
           </div>
           <ul id="sortable-custom" class="list-group feed-items">
-            @for ($i = 0; $i < 10; $i++)
+            {{-- @for ($i = 0; $i < 10; $i++)
               <li class="list-group-item"><span class="badge">DELETE</span>Managed Item {{$i + 1}}</li>
-            @endfor
+            @endfor --}}
           </ul>
       </div>
   </div>

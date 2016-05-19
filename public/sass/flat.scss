@@ -1,6 +1,9 @@
 .jumbotron.feed-top{
   padding-bottom:0px;
 }
+span.badge{
+  cursor:pointer;
+}
 
 ul.feed-items{
   padding:0px;
@@ -12,7 +15,6 @@ ul.feed-items{
     }
     span.badge{
       float:right;
-      cursor:pointer;
     }
   }
   &#sortable-source{
@@ -28,5 +30,16 @@ ul.feed-items{
   }
   ul.dropdown-menu{
     width:100%;
+  }
+}
+ul.hide-info{
+  li{
+    table{
+      tbody{
+        tr.success{
+          display:none;
+        }
+      }
+    }
   }
 }
