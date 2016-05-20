@@ -5,21 +5,39 @@ span.badge{
   cursor:pointer;
 }
 
-ul.feed-items{
-  padding:0px;
-  li{
-    padding:.666em;
-    list-style: none;
-    &:nth-child(even){
-      background-color: #EEE;
+ul{
+  &.feed-items{
+    padding:0px;
+    li{
+      padding:.666em;
+      list-style: none;
+      &:nth-child(even){
+        background-color: #EEE;
+      }
+      span.badge{
+        float:right;
+        margin-bottom:10px;
+      }
+      &.no-items{
+        border-width: 2px;
+        border-style: dashed;
+      }
     }
-    span.badge{
-      float:right;
+    &#sortable-source{
+      span.badge{
+        display:none;
+      }
     }
   }
-  &#sortable-source{
-    span.badge{
-      display:none;
+  &.hide-info{
+    li{
+      table{
+        tbody{
+          tr.success{
+            display:none;
+          }
+        }
+      }
     }
   }
 }
@@ -30,15 +48,20 @@ ul.feed-items{
   }
   ul.dropdown-menu{
     width:100%;
-  }
-}
-ul.hide-info{
-  li{
-    table{
-      tbody{
-        tr.success{
-          display:none;
-        }
+    li{
+/*
+      a{
+        float:left;
+      }
+       span.badge{
+        float: right;
+        position: relative;
+        //top: -23px;
+        left:-5px;
+      }
+*/
+      &.divider{
+        width:100%;
       }
     }
   }

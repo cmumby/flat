@@ -10,9 +10,11 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuSource">
               @foreach ($sources as $source)
-              <li><a href="#" class="feed-dropdown-option" data-sourceid="{{$source->id}}">{{$source->title}}</a></li>
+              <li><a href="#" class="feed-dropdown-option" data-sourceid="{{$source->id}}">{{$source->title}}</a> {{-- <span class="badge edit">Edit</span> --}}</li>
               @endforeach
-              <!--li role="separator" class="divider"></li-->
+              <li role="separator" class="divider"></li>
+              <li><a href="#" class="feed-dropdown-option">Add New Source</a></li>
+
             </ul>
           </div>
           <ul id="sortable-source" class="list-group feed-items">
@@ -23,9 +25,9 @@
       </div>
       <div class="col-xs-6">
           <h2>Managed Feeds
-            <span class="badge save">Save Feed</span>
-            <span class="badge create">Create Item</span>
-            <span class="badge collapse">Collapse Items</span>
+            <span class="badge save hide">Save Feed</span>
+            <span class="badge create hide">Create Item</span>
+            <span class="badge collapse hide">Collapse Items</span>
           </h2>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuFeed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

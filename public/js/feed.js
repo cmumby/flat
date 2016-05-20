@@ -12,6 +12,9 @@ FEED = (function(){
 
       //Drop Down Actions
       $(".feed-dropdown-option").click(function(){
+        if($('.badge.collapse').hasClass('hide')){
+          $('.badge.collapse').removeClass('hide');
+        }
         var labelledby = $(this).parent().parent().attr('aria-labelledby');
         var apiSourceUrl = 'http://flat.vm/feeds/api/source/get/';
         var apiFeedUrl = 'http://flat.vm/feeds/api/managed/get/';
@@ -22,6 +25,10 @@ FEED = (function(){
 
         }
         if(labelledby == "dropdownMenuFeed"){
+          if($('.badge.save').hasClass('hide')){
+            $('.badge.save').removeClass('hide');
+            $('.badge.create').removeClass('hide');
+          }
           apiFeedUrl += $(this).data('sourceid') ;
           $('ul[aria-labelledby="dropdownMenuFeed"]').attr('data-entityid',  $(this).data('sourceid'));
           FEED.getSourceData(apiFeedUrl,'sortable-custom');
@@ -50,6 +57,18 @@ FEED = (function(){
         });
 
       });
+      $('.badge.create').click(function(){
+         var createForm = new Object;
+         var formContainer = new Array;
+         createForm.title = '<input type="text" value="" class="form-control" />';
+         createForm.linkForm = '<input type="text" value="" class="form-control" />';
+         createForm.description = '<textarea rows="5" value="" class="form-control" />';
+         createForm.pubDate = '<input type="text" value="" class="form-control" />';
+         createForm.guid = '';
+         formContainer.push(createForm);
+         var newItem = FEED.writeInputList(formContainer);
+         $('#sortable-custom').prepend(newItem);
+      });
 	};
 
   FEED.getSourceData = function(url,targetlist){
@@ -71,6 +90,7 @@ FEED = (function(){
     items.forEach(function(item){
     console.log(item);
     if(typeof item.description != 'string') item.description = "None";
+    if(item.linkForm != null){ item.link = '' } else { item.linkForm = ''; }
     sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
                         "<table style=\"width:100%\" class=\"table table-bordered\">"+
                           "<tr class=\"info\">"+
@@ -79,7 +99,7 @@ FEED = (function(){
                           "</tr>"+
                           "<tr class=\"danger\">"+
                             "<th>URL:</th>"+
-                            "<td><a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.guid+"</td>"+
+                            "<td>"+item.linkForm+"<a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.guid+"</td>"+
                           "</tr>"+
                           "<tr class=\"success\">"+
                             "<th>Description:</th>"+
