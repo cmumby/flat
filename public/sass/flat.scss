@@ -17,6 +17,10 @@ ul{
       span.badge{
         float:right;
         margin-bottom:10px;
+        &.item-add{
+          
+          margin-right:5px;
+        }
       }
       &.no-items{
         border-width: 2px;

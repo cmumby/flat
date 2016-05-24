@@ -58,16 +58,20 @@ FEED = (function(){
 
       });
       $('.badge.create').click(function(){
+        createTime = new Date();
          var createForm = new Object;
          var formContainer = new Array;
          createForm.title = '<input type="text" value="" class="form-control" />';
          createForm.linkForm = '<input type="text" value="" class="form-control" />';
          createForm.description = '<textarea rows="5" value="" class="form-control" />';
          createForm.pubDate = '<input type="text" value="" class="form-control" />';
-         createForm.guid = '';
+         createForm.guid = 'create-form-at-' + createTime.getTime();
          formContainer.push(createForm);
          var newItem = FEED.writeInputList(formContainer);
          $('#sortable-custom').prepend(newItem);
+      });
+      $('.bade.item-add').click(function(){
+        // @TODO -- Add add content from the fom as item on managed list.
       });
 	};
 
@@ -87,19 +91,22 @@ FEED = (function(){
 
   FEED.writeInputList = function(items){
     var sourceListHTML = '';
+    var hideClass = ' hide';
     items.forEach(function(item){
     console.log(item);
     if(typeof item.description != 'string') item.description = "None";
-    if(item.linkForm != null){ item.link = '' } else { item.linkForm = ''; }
+    if(item.linkForm != null){ item.link = ''; item.text =''; hideClass = ''; } else { item.linkForm = ''; item.text = item.guid }
     sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
                         "<table style=\"width:100%\" class=\"table table-bordered\">"+
                           "<tr class=\"info\">"+
                             "<th>Title:</th>"+
-                            "<td><span class=\"badge item-delete\" data-delete=\""+item.guid+"\">DELETE</span>"+item.title+"</td>"+
+                            "<td>"+
+                            "<span class=\"badge item-delete\" data-delete=\""+item.guid+"\">DELETE</span>"+
+                            "<span class=\"badge item-add"+ hideClass+ "\" data-delete=\""+item.guid+"\">ADD TO FEED</span>"+item.title+"</td>"+
                           "</tr>"+
                           "<tr class=\"danger\">"+
                             "<th>URL:</th>"+
-                            "<td>"+item.linkForm+"<a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.guid+"</td>"+
+                            "<td>"+item.linkForm+"<a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.text+"</td>"+
                           "</tr>"+
                           "<tr class=\"success\">"+
                             "<th>Description:</th>"+
