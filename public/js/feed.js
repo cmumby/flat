@@ -61,17 +61,37 @@ FEED = (function(){
         createTime = new Date();
          var createForm = new Object;
          var formContainer = new Array;
-         createForm.title = '<input type="text" value="" class="form-control" />';
-         createForm.linkForm = '<input type="text" value="" class="form-control" />';
-         createForm.description = '<textarea rows="5" value="" class="form-control" />';
-         createForm.pubDate = '<input type="text" value="" class="form-control" />';
+         createForm.title = '<input name="title" type="text" value="" class="form-control" />';
+         createForm.linkForm = '<input name="link" type="text" value="" class="form-control" />';
+         createForm.description = '<textarea name="description" rows="5" value="" class="form-control" />';
+         createForm.pubDate = '<input name="date" type="text" value="" class="form-control" />';
          createForm.guid = 'create-form-at-' + createTime.getTime();
          formContainer.push(createForm);
          var newItem = FEED.writeInputList(formContainer);
          $('#sortable-custom').prepend(newItem);
+
       });
-      $('.bade.item-add').click(function(){
-        // @TODO -- Add add content from the fom as item on managed list.
+      $(document).on('click', '.badge.item-add', function () {
+        //Need to keep track of the form's guid data to target values for new item
+        var formGuid = $(this).data('add');
+        var createForm = new Object;
+        var formContainer = new Array;
+        var itemTarget = 'li[data-guid="' + formGuid + '"]';
+        createForm.title = $(itemTarget).find('input[name="title"]').val();
+        createForm.link = $(itemTarget).find('input[name="link"]').val();
+        createForm.description = $(itemTarget).find('textarea[name="description"]').val();
+        createForm.pubDate = $(itemTarget).find('input[name="date"]').val();
+        createForm.guid = createForm.link;
+        formContainer.push(createForm);
+        var newItem = FEED.writeInputList(formContainer);
+        $('#sortable-custom').prepend(newItem);
+        $(itemTarget).remove();
+        $('.no-items').remove();
+      });
+
+      //Update the values for the form items on input for direct insertion to feed
+      $(document).on('input' ,'.feed-items input, .feed-items textarea', function(e){
+        $(this).attr('value',$(this).val());
       });
 	};
 
@@ -93,7 +113,7 @@ FEED = (function(){
     var sourceListHTML = '';
     var hideClass = ' hide';
     items.forEach(function(item){
-    console.log(item);
+    //console.log(item);
     if(typeof item.description != 'string') item.description = "None";
     if(item.linkForm != null){ item.link = ''; item.text =''; hideClass = ''; } else { item.linkForm = ''; item.text = item.guid }
     sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
@@ -102,7 +122,7 @@ FEED = (function(){
                             "<th>Title:</th>"+
                             "<td>"+
                             "<span class=\"badge item-delete\" data-delete=\""+item.guid+"\">DELETE</span>"+
-                            "<span class=\"badge item-add"+ hideClass+ "\" data-delete=\""+item.guid+"\">ADD TO FEED</span>"+item.title+"</td>"+
+                            "<span class=\"badge item-add"+ hideClass+ "\" data-add=\""+item.guid+"\">ADD TO FEED</span>"+item.title+"</td>"+
                           "</tr>"+
                           "<tr class=\"danger\">"+
                             "<th>URL:</th>"+
