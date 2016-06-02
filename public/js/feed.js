@@ -21,7 +21,7 @@ FEED = (function(){
         $('#' + labelledby ).html($(this).html() + "&nbsp;<span class=\"caret\"></span>");
         if(labelledby == "dropdownMenuSource"){
           apiSourceUrl += $(this).data('sourceid') ;
-          FEED.getSourceData(apiSourceUrl,'sortable-source');
+          FEED.processSourceData(apiSourceUrl,'sortable-source');
 
         }
         if(labelledby == "dropdownMenuFeed"){
@@ -31,7 +31,7 @@ FEED = (function(){
           }
           apiFeedUrl += $(this).data('sourceid') ;
           $('ul[aria-labelledby="dropdownMenuFeed"]').attr('data-entityid',  $(this).data('sourceid'));
-          FEED.getSourceData(apiFeedUrl,'sortable-custom');
+          FEED.processSourceData(apiFeedUrl,'sortable-custom');
 
         }
       });
@@ -71,6 +71,8 @@ FEED = (function(){
          $('#sortable-custom').prepend(newItem);
 
       });
+
+      //Create new Item From "Create Item Form"
       $(document).on('click', '.badge.item-add', function () {
         //Need to keep track of the form's guid data to target values for new item
         var formGuid = $(this).data('add');
@@ -94,8 +96,12 @@ FEED = (function(){
         $(this).attr('value',$(this).val());
       });
 	};
-
-  FEED.getSourceData = function(url,targetlist){
+  /** processSourceData
+    * Retrieves source data from specified url and handles the info
+    * @param url:string - Address of the RSS Feed containing data
+    * @param targetlist:string - id of the element reciving the item markup
+  */
+  FEED.processSourceData = function(url,targetlist){
     $.ajax({
       url: url
       //  context: document.body
@@ -108,7 +114,10 @@ FEED = (function(){
       }
     });
   };
-
+  /** writeInputList
+    * Updates feeds with specified item data
+    * @param items:Array - list of items to be added
+  */
   FEED.writeInputList = function(items){
     var sourceListHTML = '';
     var hideClass = ' hide';
