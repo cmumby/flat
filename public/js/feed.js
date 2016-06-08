@@ -58,18 +58,26 @@ FEED = (function(){
 
       });
       $('.badge.create').click(function(){
-        createTime = new Date();
-         var createForm = new Object;
-         var formContainer = new Array;
-         createForm.title = '<input name="title" type="text" value="" class="form-control" />';
-         createForm.linkForm = '<input name="link" type="text" value="" class="form-control" />';
-         createForm.description = '<textarea name="description" rows="5" value="" class="form-control" />';
-         createForm.pubDate = '<input name="date" type="text" value="" class="form-control" />';
-         createForm.guid = 'create-form-at-' + createTime.getTime();
-         formContainer.push(createForm);
-         var newItem = FEED.writeInputList(formContainer);
-         $('#sortable-custom').prepend(newItem);
+        var createTime = new Date();
+        var formTimestamp = createTime.getTime();
+        var createForm = new Object;
+        var formContainer = new Array;
+        createForm.title = '<input name="title" type="text" value="" class="form-control" />';
+        createForm.linkForm = '<input name="link" type="text" value="" class="form-control" />';
+        createForm.description = '<textarea name="description" rows="5" value="" class="form-control" />';
+        createForm.pubDate = '<input name="date" type="text" value="'+createTime+'" class="form-control" />';
+        createForm.guid = 'create-form-at-' +formTimestamp;
+        formContainer.push(createForm);
+        var newItem = FEED.writeInputList(formContainer);
+        $('#sortable-custom').prepend(newItem);
 
+      });
+
+      $('.badge.save').click(function(){
+        var managedFeedID = $('ul[aria-labelledby="dropdownMenuFeed"]').data('entityid');
+        var postUrl = '/feed/managed/save/' + managedFeedID;
+        console.log(postUrl);
+        //$.post('/feed/managed/')
       });
 
       //Create new Item From "Create Item Form"

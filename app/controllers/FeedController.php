@@ -2,21 +2,20 @@
 
 class FeedController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
+  /*
+  |--------------------------------------------------------------------------
+  | Default Home Controller
+  |--------------------------------------------------------------------------
+  |
+  | You may wish to use controllers instead of, or in addition to, Closure
+  | based routes. That's great! Here is an example controller method to
+  | get you started. To route to this controller, just add the route:
+  |
+  |	Route::get('/', 'HomeController@showWelcome');
+  |
+  */
 
-	public function getFeed($type,$id)
-	{
+  public function getFeed($type,$id){
     $content = array();
     if($type == 'source'){
       $source = SOURCE::find($id);
@@ -24,7 +23,6 @@ class FeedController extends BaseController {
     }
     if($type == 'managed'){
       $items = ITEM::where('feed_id', $id)->get();
-      //var_dump($items); die();
       foreach($items as $item){
         $content[] = array(
                         "title" => $item->title,
@@ -36,12 +34,15 @@ class FeedController extends BaseController {
       }
     }
     return Response::make($content, '200')->header('Content-Type', 'application/json');
-	}
+  }
+
+  public function SaveFeed($type,$id){
+    
+  }
 
   public function showFeedsInterface(){
     $sources= SOURCE::all();
     $feeds= FEED::all();
-    //var_dump($sources); die();
     return View::make('feed')->with(array('title'=> 'FGT','sources'=>$sources,'feeds' => $feeds));
   }
 
@@ -55,7 +56,5 @@ class FeedController extends BaseController {
     $json = json_encode($data);
     return $json;
   }
-
-
 
 }
