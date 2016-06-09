@@ -36,8 +36,8 @@ class FeedController extends BaseController {
     return Response::make($content, '200')->header('Content-Type', 'application/json');
   }
 
-  public function SaveFeed($type,$id){
-    
+  public function saveFeed($type,$id){
+    return Response::make(Input::all(), '200')->header('Content-Type', 'application/json');
   }
 
   public function showFeedsInterface(){

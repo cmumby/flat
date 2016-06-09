@@ -74,10 +74,23 @@ FEED = (function(){
       });
 
       $('.badge.save').click(function(){
-        var managedFeedID = $('ul[aria-labelledby="dropdownMenuFeed"]').data('entityid');
-        var postUrl = '/feed/managed/save/' + managedFeedID;
-        console.log(postUrl);
-        //$.post('/feed/managed/')
+        var managedFeedSelector = 'ul[aria-labelledby="dropdownMenuFeed"]';
+        var managedFeedID = $(managedFeedSelector).data('entityid');
+        var mangedFeedData = new Array;
+        var postUrl = '/feeds/api/managed/save/' + managedFeedID;
+
+        $('#sortable-custom li').each(function(){
+          var managedFeedItem = new Object;
+
+          managedFeedItem.guid = $(this).data('guid');
+          managedFeedItem.title = $(this).find('span.item-title').text();
+          managedFeedItem.descripton = $(this).find('tr.description').text();
+          managedFeedItem.link = $(this).find('tr.link').text();
+          managedFeedItem.pubdate = $(this).find('tr.pubdate').text();
+          mangedFeedData.push(managedFeedItem);
+        });
+
+        $.post(postUrl, {data: mangedFeedData });
       });
 
       //Create new Item From "Create Item Form"
@@ -135,21 +148,21 @@ FEED = (function(){
     if(item.linkForm != null){ item.link = ''; item.text =''; hideClass = ''; } else { item.linkForm = ''; item.text = item.guid }
     sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
                         "<table style=\"width:100%\" class=\"table table-bordered\">"+
-                          "<tr class=\"info\">"+
+                          "<tr class=\"info title\">"+
                             "<th>Title:</th>"+
                             "<td>"+
                             "<span class=\"badge item-delete\" data-delete=\""+item.guid+"\">DELETE</span>"+
-                            "<span class=\"badge item-add"+ hideClass+ "\" data-add=\""+item.guid+"\">ADD TO FEED</span>"+item.title+"</td>"+
+                            "<span class=\"badge item-add"+ hideClass+"\" data-add=\""+item.guid+"\">ADD TO FEED</span><span class=\"item-title\">"+item.title+"</span></td>"+
                           "</tr>"+
-                          "<tr class=\"danger\">"+
+                          "<tr class=\"danger link\">"+
                             "<th>URL:</th>"+
                             "<td>"+item.linkForm+"<a href=\""+item.link+"\" target=\"_blank\" data-link=\""+item.link+"\">"+item.text+"</td>"+
                           "</tr>"+
-                          "<tr class=\"success\">"+
+                          "<tr class=\"success description\">"+
                             "<th>Description:</th>"+
                             "<td>"+item.description+"</td>"+
                           "</tr>"+
-                          "<tr class=\"success\">"+
+                          "<tr class=\"success pubdate\">"+
                             "<th>Published Date:</th>"+
                             "<td>"+item.pubDate+"</td>"+
                           "</tr>"+
