@@ -22,9 +22,10 @@ class FeedController extends BaseController {
       $content = $this->getSourceData($source->path);
     }
     if($type == 'managed'){
-      $items = ITEM::where('feed_id', $id)->get();
+      $items = ITEM::where('feed_id', $id)->orderBy('weight','ASC')->get();
       foreach($items as $item){
         $content[] = array(
+                        "id" =>  $item->id,
                         "title" => $item->title,
                         "guid"  => $item->guid,
                         "link"  => $item->link,
@@ -36,8 +37,35 @@ class FeedController extends BaseController {
     return Response::make($content, '200')->header('Content-Type', 'application/json');
   }
 
-  public function saveFeed($type,$id){
-    return Response::make(Input::all(), '200')->header('Content-Type', 'application/json');
+  public function saveFeed($type,$id){ //TODO Figure out what to do with deleted items
+    $data = Input::all();
+    $weight = 0;
+    foreach($data['items'] as $item){
+        $weight++;
+        $managed_item = ITEM::find($item['id']);
+        //item already exists
+        if(count($managed_item) > 0 ){
+          $managed_item->title = $item['title'];
+          $managed_item->description = $item['description'];
+          $managed_item->link = $item['link'];
+          $managed_item->pubdate = $item['pubdate'];
+          $managed_item->guid = $item['guid'];
+          $managed_item->weight = $weight;
+          $managed_item->save();
+        } else { // Item is new
+          $new_item = new Item;
+          $new_item->title = $item['title'];
+          $new_item->description = $item['description'];
+          $new_item->link = $item['link'];
+          $new_item->pubdate = $item['pubdate'];
+          $new_item->guid = $item['guid'];
+          $new_item->weight = $weight;
+          $new_item->feed_id = $id;
+          $new_item->save();
+
+        }
+    }//die();
+    return Response::make($data['items'], '200')->header('Content-Type', 'application/json');
   }
 
   public function showFeedsInterface(){

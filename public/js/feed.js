@@ -81,16 +81,16 @@ FEED = (function(){
 
         $('#sortable-custom li').each(function(){
           var managedFeedItem = new Object;
-
+          managedFeedItem.id = $(this).data('managedid');
           managedFeedItem.guid = $(this).data('guid');
           managedFeedItem.title = $(this).find('span.item-title').text();
-          managedFeedItem.descripton = $(this).find('tr.description').text();
+          managedFeedItem.description = $(this).find('tr.description').text();
           managedFeedItem.link = $(this).find('tr.link').text();
           managedFeedItem.pubdate = $(this).find('tr.pubdate').text();
           mangedFeedData.push(managedFeedItem);
         });
 
-        $.post(postUrl, {data: mangedFeedData });
+        $.post(postUrl, {items: mangedFeedData });
       });
 
       //Create new Item From "Create Item Form"
@@ -146,7 +146,7 @@ FEED = (function(){
     //console.log(item);
     if(typeof item.description != 'string') item.description = "None";
     if(item.linkForm != null){ item.link = ''; item.text =''; hideClass = ''; } else { item.linkForm = ''; item.text = item.guid }
-    sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\">"+
+    sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\" data-managedid=\""+item.id+"\">"+
                         "<table style=\"width:100%\" class=\"table table-bordered\">"+
                           "<tr class=\"info title\">"+
                             "<th>Title:</th>"+
