@@ -1,6 +1,6 @@
 @extends('layouts/tool')
 @section('form')
-  <div class="row">
+  <div class="stage row">
       <div class="col-xs-6">
           <h2>Source Feeds</h2>
           <div class="dropdown">

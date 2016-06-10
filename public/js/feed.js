@@ -47,6 +47,7 @@ FEED = (function(){
         }
 
         $(listTarget).remove();
+        FEED.checkifReadyForSave();
         return false;
       });
 
@@ -77,13 +78,14 @@ FEED = (function(){
         formContainer.push(createForm);
         var newItem = FEED.writeInputList(formContainer);
         $('#sortable-custom').prepend(newItem);
-
+        FEED.checkifReadyForSave();
       });
 
       $('.badge.save').click(function(){
         var managedFeedSelector = 'ul[aria-labelledby="dropdownMenuFeed"]';
         var managedFeedID = $(managedFeedSelector).data('entityid');
         var mangedFeedData = new Array;
+        var managedFeedName = $('#dropdownMenuFeed').text();
         var postUrl = '/feeds/api/managed/save/' + managedFeedID;
 
         $('#sortable-custom li').each(function(){
@@ -97,7 +99,19 @@ FEED = (function(){
           mangedFeedData.push(managedFeedItem);
         });
 
-        $.post(postUrl, {items: mangedFeedData });
+        $.post(postUrl, {items: mangedFeedData }).done(function(){
+            var createTime = new Date();
+            var alertTimeStamp = createTime.getTime();
+            var alertId= 'alert-at-' + alertTimeStamp;
+            var success = '<div id="'+alertId+'" class="alert alert-success fade in" style="margin-top:18px;">'+
+                            '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>'+
+                            '<strong>Success!</strong> The Managed Feed "<strong>'+managedFeedName+'</strong>" has been updated.'+
+                          '</div>';
+            $('.stage').prepend(success);
+            $("#"+alertId).fadeTo(5000, 500).fadeOut(500, function(){
+              $("#"+alertId).alert('close');
+            });
+          });
       });
 
       //Create new Item From "Create Item Form"
@@ -117,6 +131,7 @@ FEED = (function(){
         $('#sortable-custom').prepend(newItem);
         $(itemTarget).remove();
         $('.no-items').remove();
+        FEED.checkifReadyForSave();
       });
 
       //Update the values for the form items on input for direct insertion to feed
@@ -141,6 +156,24 @@ FEED = (function(){
         $("#"+targetlist).html('<li class="no-items list-group-item ui-sortable-handle">No Items Yet. Add Items Under This<span class="caret"></span></li> ');
       }
     });
+  };
+  /** checkifReadyForSave
+    * checks managed feed list to see if it's ready for save started
+    * hides or shows 'Save Feed' button based on state
+  */
+  FEED.checkifReadyForSave = function(){
+    var isReady = true;
+    $('ul#sortable-custom li').each(function(){
+      if($(this).data('guid').indexOf('create-form-at-') > -1 ){
+        isReady = false;
+      }
+    });
+    if(isReady == false){
+      $('.badge.save').addClass('hide');
+    } else {
+      $('.badge.save').removeClass('hide');
+    }
+
   };
   /** writeInputList
     * Updates feeds with specified item data
