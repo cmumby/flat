@@ -44,27 +44,18 @@ class FeedController extends BaseController {
         $weight++;
         $managed_item = ITEM::find($item['id']);
         //item already exists
-        if(count($managed_item) > 0 ){
-          $managed_item->title = $item['title'];
-          $managed_item->description = $item['description'];
-          $managed_item->link = $item['link'];
-          $managed_item->pubdate = $item['pubdate'];
-          $managed_item->guid = $item['guid'];
-          $managed_item->weight = $weight;
-          $managed_item->save();
-        } else { // Item is new
-          $new_item = new Item;
-          $new_item->title = $item['title'];
-          $new_item->description = $item['description'];
-          $new_item->link = $item['link'];
-          $new_item->pubdate = $item['pubdate'];
-          $new_item->guid = $item['guid'];
-          $new_item->weight = $weight;
-          $new_item->feed_id = $id;
-          $new_item->save();
-
+        if(count($managed_item) == 0 ){
+          $managed_item = new Item;
+          $managed_item->feed_id = $id;
         }
-    }//die();
+        $managed_item->title = $item['title'];
+        $managed_item->description = $item['description'];
+        $managed_item->link = $item['link'];
+        $managed_item->pubdate = $item['pubdate'];
+        $managed_item->guid = $item['guid'];
+        $managed_item->weight = $weight;
+        $managed_item->save();
+    }
     return Response::make($data['items'], '200')->header('Content-Type', 'application/json');
   }
 
@@ -72,6 +63,13 @@ class FeedController extends BaseController {
     $sources= SOURCE::all();
     $feeds= FEED::all();
     return View::make('feed')->with(array('title'=> 'FGT','sources'=>$sources,'feeds' => $feeds));
+  }
+
+  public function deleteItem(){
+    $data = Input::all();
+    Item::destroy($data['id']);
+    $message = array('deleted-id' => $data['id'], 'message'=>'success');
+    return Response::make($message, '200')->header('Content-Type', 'application/json');
   }
 
   private function getSourceData($path){

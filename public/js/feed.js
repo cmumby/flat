@@ -39,7 +39,14 @@ FEED = (function(){
       //Feed Item Removal - Ajax Generated Items
       $(document).on('click', '.item-delete', function () {
         var deleteGuid = $(this).data('delete');
-        $('li[data-guid="' + deleteGuid + '"]').remove();
+        var listTarget = 'li[data-guid="' + deleteGuid + '"]';
+        var deleteUrl = 'feeds/api/managed/item/delete';
+
+        if($(listTarget).data('managedid') != 'source-item'){
+          $.post(deleteUrl, {id: $(listTarget).data('managedid') });
+        }
+
+        $(listTarget).remove();
         return false;
       });
 
@@ -84,9 +91,9 @@ FEED = (function(){
           managedFeedItem.id = $(this).data('managedid');
           managedFeedItem.guid = $(this).data('guid');
           managedFeedItem.title = $(this).find('span.item-title').text();
-          managedFeedItem.description = $(this).find('tr.description').text();
-          managedFeedItem.link = $(this).find('tr.link').text();
-          managedFeedItem.pubdate = $(this).find('tr.pubdate').text();
+          managedFeedItem.description = $(this).find('tr.description td').text();
+          managedFeedItem.link = $(this).find('tr.link td').text();
+          managedFeedItem.pubdate = $(this).find('tr.pubdate td').text();
           mangedFeedData.push(managedFeedItem);
         });
 
@@ -144,6 +151,7 @@ FEED = (function(){
     var hideClass = ' hide';
     items.forEach(function(item){
     //console.log(item);
+    if(item.id == undefined) item.id = "source-item"
     if(typeof item.description != 'string') item.description = "None";
     if(item.linkForm != null){ item.link = ''; item.text =''; hideClass = ''; } else { item.linkForm = ''; item.text = item.guid }
     sourceListHTML += "<li class=\"list-group-item ui-sortable-handle\" data-guid=\""+item.guid+"\" data-managedid=\""+item.id+"\">"+

@@ -19,3 +19,4 @@ Route::get('/', function()
 Route::get('/feeds', 'FeedController@showFeedsInterface');
 Route::get('/feeds/api/{type}/get/{id}', 'FeedController@getFeed');
 Route::post('feeds/api/{type}/save/{id}', 'FeedController@saveFeed');
+Route::post('feeds/api/managed/item/delete', 'FeedController@deleteItem');
