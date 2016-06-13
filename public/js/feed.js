@@ -1,4 +1,4 @@
-FEED = (function(){
+FEED = (function(){//TODO: Make Managed Feed List Stick so it's easy to drop items over in large Feeds
 	var FEED = FEED || {};
 	FEED.init = function(){
       //Enable Feed Item Drag and Drop
@@ -67,13 +67,15 @@ FEED = (function(){
       });
       $('.badge.create').click(function(){
         var createTime = new Date();
+        var rssFormatedDate = createTime.format("ddd, dd yyyy HH:MM:ss Z");
+        //$.datepicker.formatDate('D, d M yy H:i:s T', createTime);
         var formTimestamp = createTime.getTime();
         var createForm = new Object;
         var formContainer = new Array;
         createForm.title = '<input name="title" type="text" value="" class="form-control" />';
         createForm.linkForm = '<input name="link" type="text" value="" class="form-control" />';
         createForm.description = '<textarea name="description" rows="5" value="" class="form-control" />';
-        createForm.pubDate = '<input name="date" type="text" value="'+createTime+'" class="form-control" />';
+        createForm.pubDate = '<input name="date" type="text" value="'+rssFormatedDate+'" class="form-control" />';
         createForm.guid = 'create-form-at-' +formTimestamp;
         formContainer.push(createForm);
         var newItem = FEED.writeInputList(formContainer);
@@ -105,10 +107,11 @@ FEED = (function(){
             var alertId= 'alert-at-' + alertTimeStamp;
             var success = '<div id="'+alertId+'" class="alert alert-success fade in" style="margin-top:18px;">'+
                             '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>'+
-                            '<strong>Success!</strong> The Managed Feed "<strong>'+managedFeedName+'</strong>" has been updated.'+
+                            '<strong>Success!</strong> The Managed Feed "<strong>'+managedFeedName+'</strong>" has been updated.<br/>'+
+                            '<strong><a href="/rss/'+managedFeedID+'" target="_bank" >View the RSS feed</a></strong>';
                           '</div>';
             $('.stage').prepend(success);
-            $("#"+alertId).fadeTo(5000, 500).fadeOut(500, function(){
+            $("#"+alertId).fadeTo(5000, 500).fadeOut(1000, function(){
               $("#"+alertId).alert('close');
             });
           });

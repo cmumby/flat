@@ -37,24 +37,27 @@ class FeedController extends BaseController {
     return Response::make($content, '200')->header('Content-Type', 'application/json');
   }
 
-  public function saveFeed($type,$id){ //TODO Figure out what to do with deleted items
+  public function saveFeed($type,$id){
     $data = Input::all();
     $weight = 0;
     foreach($data['items'] as $item){
         $weight++;
-        $managed_item = ITEM::find($item['id']);
-        //item already exists
-        if(count($managed_item) == 0 ){
-          $managed_item = new Item;
-          $managed_item->feed_id = $id;
+        if(isset($item['id'])){
+          $managed_item = ITEM::find($item['id']);
+          //item already exists
+          if(count($managed_item) == 0 ){
+            $managed_item = new Item;
+            $managed_item->feed_id = $id;
+          }
+          $managed_item->title = $item['title'];
+          $managed_item->description = $item['description'];
+          $managed_item->link = $item['link'];
+          $managed_item->pubdate = $item['pubdate']; //date('D, d M Y H:i:s T', strtotime($item['pubdate']) );
+          $managed_item->guid = $item['guid'];
+          $managed_item->weight = $weight;
+          $managed_item->save();
         }
-        $managed_item->title = $item['title'];
-        $managed_item->description = $item['description'];
-        $managed_item->link = $item['link'];
-        $managed_item->pubdate = $item['pubdate'];
-        $managed_item->guid = $item['guid'];
-        $managed_item->weight = $weight;
-        $managed_item->save();
+
     }
     return Response::make($data['items'], '200')->header('Content-Type', 'application/json');
   }
@@ -70,6 +73,13 @@ class FeedController extends BaseController {
     Item::destroy($data['id']);
     $message = array('deleted-id' => $data['id'], 'message'=>'success');
     return Response::make($message, '200')->header('Content-Type', 'application/json');
+  }
+
+  public function showFeed($id){
+    $feed = Feed::find($id);
+    $items = ITEM::where('feed_id', $id)->orderBy('weight','ASC')->get();
+    $content = View::make('item')->with(array('feed'=>$feed,'items' => $items));
+    return Response::make($content, '200')->header('Content-Type', 'text/xml');
   }
 
   private function getSourceData($path){
