@@ -28,9 +28,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="http://www.tutorialrepublic.com" target="_blank">Home</a></li>
-                <li><a href="http://www.tutorialrepublic.com/about-us.php" target="_blank">About</a></li>
-                <li><a href="http://www.tutorialrepublic.com/contact-us.php" target="_blank">Contact</a></li>
+                <li class="active"><a href="/feeds">Home</a></li>
+                <li><a href="/admin/sources">Sources</a></li>
+                <li><a href="http://www.tutorialrepublic.com/contact-us.php" target="_blank">Managed Feeds</a></li>
             </ul>
         </div>
     </div>
