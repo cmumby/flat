@@ -8,7 +8,7 @@
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
+          <li class="active">Sources</li>
         </ol>
       </section>
 
@@ -27,15 +27,9 @@
 
                 <h3 class="box-title">All Source Feeds</h3>
 
-                <div class="box-tools pull-right">
-                  <ul class="pagination pagination-sm inline">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                  </ul>
-                </div>
+
+                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Source</button>
+
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -56,7 +50,18 @@
               </div>
               <!-- /.box-body -->
               <div class="box-footer clearfix no-border">
-                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+                <div class="box-tools pull-left">
+                  <ul class="pagination pagination-sm inline">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                  </ul>
+
+
+                </div>
+                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Source</button>
               </div>
             </div>
             <!-- /.box -->

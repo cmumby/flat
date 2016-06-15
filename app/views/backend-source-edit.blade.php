@@ -11,6 +11,14 @@
           <li class="active">Dashboard</li>
         </ol>
       </section>
+      @if(!empty(Session::get('message')))
+        <section class="col-lg-12">
+          <div class="alert alert-success fade in" style="margin-top:18px;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+            {{Session::get('message')}}
+          </div>
+        </section>
+      @endif
 
       <!-- Main content -->
       <section class="content">
@@ -26,12 +34,13 @@
                 <h3 class="box-title">Edit</h3>
                 <!-- tools box -->
                 <div class="pull-right box-tools">
-                
+
                 </div>
                 <!-- /. tools -->
               </div>
+              {{ Form::open(array('action' => array('FeedController@saveFeed','source',$source->id) )) }}
               <div class="box-body">
-                {{ Form::open(array('url' => 'foo/bar')) }}
+
                   <div class="form-group">
                     {{Form::text('title', $source->title , array("class"=>"form-control", "placeholder"=>"Title" ));}}
                   </div>
@@ -41,11 +50,12 @@
                   {{-- <div>
                     <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                   </div> --}}
-                {{ Form::close() }}
+
               </div>
               <div class="box-footer clearfix">
-                <button type="button" class="pull-right btn btn-default" id="sendEmail">Send
-                  <i class="fa fa-arrow-circle-right"></i></button>
+
+                {{Form::button('Save       <i class="fa fa-arrow-circle-right"></i>',array('type'=>'submit','class'=>'pull-right btn btn-default')) }}
               </div>
+              {{ Form::close() }}
             </div>
 @stop

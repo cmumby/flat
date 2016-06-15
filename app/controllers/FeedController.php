@@ -40,7 +40,8 @@ class FeedController extends BaseController {
   public function saveFeed($type,$id){
     $data = Input::all();
     $weight = 0;
-    foreach($data['items'] as $item){
+    if($type == 'managed'){
+      foreach($data['items'] as $item){
         $weight++;
         if(isset($item['id'])){
           $managed_item = ITEM::find($item['id']);
@@ -57,7 +58,14 @@ class FeedController extends BaseController {
           $managed_item->weight = $weight;
           $managed_item->save();
         }
-
+      }
+    }elseif($type == 'source'){
+      $source = Source::find($id);
+      $source->title = $data['title'];
+      $source->path = $data['path'];
+      $source->save();
+      $message = "<strong>Success!</strong> {$data['title']} has been updated";
+      return Redirect::to("admin/sources/edit/{$id}")->with('message',$message);
     }
     return Response::make($data['items'], '200')->header('Content-Type', 'application/json');
   }
