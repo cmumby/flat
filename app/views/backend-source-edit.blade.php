@@ -26,8 +26,7 @@
                 <h3 class="box-title">Edit</h3>
                 <!-- tools box -->
                 <div class="pull-right box-tools">
-                  <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fa fa-times"></i></button>
+                
                 </div>
                 <!-- /. tools -->
               </div>
@@ -39,9 +38,9 @@
                   <div class="form-group">
                     {{Form::text('path', $source->path , array("class"=>"form-control", "placeholder"=>"Path" ));}}
                   </div>
-                  <div>
+                  {{-- <div>
                     <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                  </div>
+                  </div> --}}
                 {{ Form::close() }}
               </div>
               <div class="box-footer clearfix">

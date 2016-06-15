@@ -3,7 +3,7 @@
   <channel>
     <title>{{$feed->title}}</title>
     <link>LINK</link>
-    <description><![CDATA[FOXNews.com - Breaking news and video. Latest Current News: U.S., World, Entertainment, Health, Business, Technology, Politics, Sports.]]></description>
+    <description><![CDATA[Description]]></description>
     <image>
     	<url>URL</url>
     	<title>{{$feed->title}}</title>
