@@ -18,7 +18,6 @@ ul{
         float:right;
         margin-bottom:10px;
         &.item-add{
-          
           margin-right:5px;
         }
       }
@@ -69,4 +68,10 @@ ul{
       }
     }
   }
+}
+
+// for the right rail affix and scroll mode
+.trail-mode{
+  height:700px;
+  overflow:scroll;
 }

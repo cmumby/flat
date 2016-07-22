@@ -137,6 +137,21 @@ FEED = (function(){//TODO: Make Managed Feed List Stick so it's easy to drop ite
         FEED.checkifReadyForSave();
       });
 
+      //Hold shift key to affix right list
+      $('html').keydown(function(event){
+        var SHIFT_KEY == 16;
+        if(event.keyCode == SHIFT_KEY && $('#sortable-custom').hasClass('trail-mode') == false ){
+          $('#sortable-custom').addClass('affix');
+          $('#sortable-custom').addClass('trail-mode');
+        } else if(event.keyCode == SHIFT_KEY && $('#sortable-custom').hasClass('trail-mode') == true){
+          $('#sortable-custom').removeClass('affix');
+          $('#sortable-custom').removeClass('trail-mode');
+        }
+      });
+
+
+
+
       //Update the values for the form items on input for direct insertion to feed
       $(document).on('input' ,'.feed-items input, .feed-items textarea', function(e){
         $(this).attr('value',$(this).val());
