@@ -139,7 +139,7 @@ FEED = (function(){//TODO: Make Managed Feed List Stick so it's easy to drop ite
 
       //Hold shift key to affix right list
       $('html').keydown(function(event){
-        var SHIFT_KEY == 16;
+        var SHIFT_KEY = 16;
         if(event.keyCode == SHIFT_KEY && $('#sortable-custom').hasClass('trail-mode') == false ){
           $('#sortable-custom').addClass('affix');
           $('#sortable-custom').addClass('trail-mode');
