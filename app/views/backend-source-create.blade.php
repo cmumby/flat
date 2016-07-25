@@ -3,8 +3,8 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          Source Feed: {{$source->title}}
-          <small>{{$source->path}}</small>
+          Create New Source
+          <small>New Rss Source for</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -38,14 +38,14 @@
                 </div>
                 <!-- /. tools -->
               </div>
-              {{ Form::open(array('action' => array('FeedController@saveFeed','source',$source->id) )) }}
+              {{ Form::open(array('action' => array('FeedController@saveFeed','source','new'), 'method'=>'POST' )) }}
               <div class="box-body">
 
                   <div class="form-group">
-                    {{Form::text('title', $source->title , array("class"=>"form-control", "placeholder"=>"Title" ));}}
+                    {{Form::text('title', '' , array("class"=>"form-control", "placeholder"=>"Title" ));}}
                   </div>
                   <div class="form-group">
-                    {{Form::text('path', $source->path , array("class"=>"form-control", "placeholder"=>"Path" ));}}
+                    {{Form::text('path', '' , array("class"=>"form-control", "placeholder"=>"Path" ));}}
                   </div>
                   {{-- <div>
                     <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
@@ -58,5 +58,4 @@
               </div>
               {{ Form::close() }}
             </div>
-          </section>
 @stop

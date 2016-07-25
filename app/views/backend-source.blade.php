@@ -11,6 +11,14 @@
           <li class="active">Sources</li>
         </ol>
       </section>
+      @if(!empty(Session::get('message')))
+        <section class="col-lg-12">
+          <div class="alert alert-success fade in" style="margin-top:18px;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+            {{Session::get('message')}}
+          </div>
+        </section>
+      @endif
 
       <!-- Main content -->
       <section class="content">
@@ -28,7 +36,7 @@
                 <h3 class="box-title">All Source Feeds</h3>
 
 
-                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Source</button>
+                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> <a href="{{URL::to('admin/sources/create')}}"> Add Source</a></button>
 
               </div>
               <!-- /.box-header -->
@@ -41,8 +49,8 @@
 
                     <!-- General tools such as edit or delete-->
                     <div class="tools">
-                      <i class="fa fa-edit"></i>
-                      <i class="fa fa-trash-o"></i>
+                      {{-- i class="fa fa-edit"></i> --}}
+                      <i class="fa fa-trash-o"><a href="/admin/source/delete/{{$source->id}}">&nbsp;</a></i>
                     </div>
                   </li>
                   @endforeach
@@ -61,10 +69,8 @@
 
 
                 </div>
-                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add Source</button>
+                <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> <a href="{{URL::to('admin/sources/create')}}"> Add Source</a></button>
               </div>
             </div>
             <!-- /.box -->
-
-
 @stop

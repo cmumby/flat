@@ -1,4 +1,4 @@
-FEED = (function(){//TODO: Make Managed Feed List Stick so it's easy to drop items over in large Feeds
+FEED = (function(){
 	var FEED = FEED || {};
 	FEED.init = function(){
       //Enable Feed Item Drag and Drop

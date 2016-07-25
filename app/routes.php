@@ -26,5 +26,8 @@ Route::get('rss/{id}', 'FeedController@ShowFeed');
 Route::get('admin', 'AdminController@showAdminInterface');
 Route::get('admin/sources', 'AdminController@showSources');
 Route::get('admin/sources/edit/{id}', 'AdminController@editSource');
+Route::get('admin/sources/create', 'AdminController@createSource');
 Route::get('admin/managed', 'AdminController@showManagedFeeds');
 Route::get('admin/managed/edit/{id}', 'AdminController@editManagedFeed');
+Route::get('admin/{type}/delete/{id}', 'AdminController@deletePrompt');
+Route::post('admin/delete/confirm', 'FeedController@deleteFeed');

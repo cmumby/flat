@@ -18,4 +18,24 @@ class AdminController extends BaseController {
     return View::make('backend-source-edit')->with(array('source'=>$source));
   }
 
+  public function createSource(){
+    return View::make('backend-source-create');
+  }
+
+  public function saveSource(){
+    $data = Input::all();
+    var_dump($data);
+  }
+
+  public function deletePrompt($type,$id){
+    if($type == 'source'){
+      $source = Source::find($id);
+      $title = $source->title;
+    }elseif($type == 'managed'){
+      $feed = Feed::find($id);
+      $title = $feed->title;
+    }
+    return View::make('backend-delete-prompt')->with(array('type'=>ucfirst($type),'id'=>$id, 'title' =>$title));
+  }
+
 }

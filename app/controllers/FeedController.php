@@ -60,12 +60,22 @@ class FeedController extends BaseController {
         }
       }
     }elseif($type == 'source'){
-      $source = Source::find($id);
-      $source->title = $data['title'];
-      $source->path = $data['path'];
-      $source->save();
-      $message = "<strong>Success!</strong> {$data['title']} has been updated";
-      return Redirect::to("admin/sources/edit/{$id}")->with('message',$message);
+      if($id != 'new'){
+        $source = Source::find($id);
+        $source->title = $data['title'];
+        $source->path = $data['path'];
+        $source->save();
+        $message = "<strong>Success!</strong> {$data['title']} has been updated";
+        return Redirect::to("admin/sources/edit/{$id}")->with('message',$message);
+      } elseif($id == 'new'){
+        $new_source = new Source;
+        $new_source->title = $data['title'];
+        $new_source->path = $data['path'];
+        $new_source->save();
+        $message = "<strong>Success!</strong> {$data['title']} has been Created";
+        return Redirect::to("admin/sources/edit/{$new_source->id}")->with('message',$message);
+      }
+
     }
     return Response::make($data['items'], '200')->header('Content-Type', 'application/json');
   }
@@ -88,6 +98,15 @@ class FeedController extends BaseController {
     $items = ITEM::where('feed_id', $id)->orderBy('weight','ASC')->get();
     $content = View::make('item')->with(array('feed'=>$feed,'items' => $items));
     return Response::make($content, '200')->header('Content-Type', 'text/xml');
+  }
+
+  public function deleteFeed(){
+    $data = Input::all();
+    if(isset($data['type']) && $data['type'] == 'Source' ){
+      Source::destroy($data['id']);
+      $message = "<strong>Success!</strong> {$data['title']} has been deleted";
+      return Redirect::to("admin/sources")->with('message',$message);
+    }
   }
 
   private function getSourceData($path){
