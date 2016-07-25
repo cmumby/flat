@@ -22,11 +22,6 @@ class AdminController extends BaseController {
     return View::make('backend-source-create');
   }
 
-  public function saveSource(){
-    $data = Input::all();
-    var_dump($data);
-  }
-
   public function deletePrompt($type,$id){
     if($type == 'source'){
       $source = Source::find($id);
