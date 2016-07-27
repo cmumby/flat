@@ -50,7 +50,7 @@
                     <!-- General tools such as edit or delete-->
                     <div class="tools">
                       {{-- i class="fa fa-edit"></i> --}}
-                      <i class="fa fa-trash-o"><a href="/admin/source/delete/{{$source->id}}">&nbsp;</a></i>
+                      <a href="/admin/source/delete/{{$source->id}}"><i class="fa fa-trash-o"></i></a>
                     </div>
                   </li>
                   @endforeach
